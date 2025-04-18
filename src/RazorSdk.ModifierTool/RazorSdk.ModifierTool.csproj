@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>razor-sdk</ToolCommandName>
+        <PackageOutputPath>./nupkg</PackageOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Build.Locator" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+      <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+      <PackageReference Include="Spectre.Console.Cli" />
+    </ItemGroup>
+
+</Project>

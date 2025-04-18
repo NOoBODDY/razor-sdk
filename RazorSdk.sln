@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{547A2231-520A-4176-9AAA-A216AFAB922D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{6525DF8A-1516-4076-81DF-7CA08896C949}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		NuGet.config = NuGet.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{0575E7B4-BE96-41E6-A1EC-E6B6E95E7A02}"
+	ProjectSection(SolutionItems) = preProject
+		docker\razor-sdk.dockerfile = docker\razor-sdk.dockerfile
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorSdk.ModifierTool", "src\RazorSdk.ModifierTool\RazorSdk.ModifierTool.csproj", "{3000070F-04C4-408A-A517-9AB218AF0DCF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{426128BA-5D18-4CB5-A570-581E1E34860F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ronimizy.Razor.Sdk.Sample", "sample\ronimizy.Razor.Sdk.Sample\ronimizy.Razor.Sdk.Sample.csproj", "{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3000070F-04C4-408A-A517-9AB218AF0DCF} = {547A2231-520A-4176-9AAA-A216AFAB922D}
+		{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A} = {426128BA-5D18-4CB5-A570-581E1E34860F}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3000070F-04C4-408A-A517-9AB218AF0DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3000070F-04C4-408A-A517-9AB218AF0DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3000070F-04C4-408A-A517-9AB218AF0DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3000070F-04C4-408A-A517-9AB218AF0DCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

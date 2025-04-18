@@ -1,0 +1,4 @@
+[submodule "razor"]
+	path = razor
+	url = git@github.com:dotnet/razor.git
+	
