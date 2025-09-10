@@ -1,6 +1,6 @@
 using Spectre.Console.Cli;
 
-namespace RazorSdk.ModifierTool.Infrastructure;
+namespace ronimizy.Razor.Sdk.ModifierTool.Infrastructure;
 
 public class DiTypeResolver : ITypeResolver, IDisposable
 {

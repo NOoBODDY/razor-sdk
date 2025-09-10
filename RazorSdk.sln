@@ -14,11 +14,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{0575E7
 		docker\razor-sdk.dockerfile = docker\razor-sdk.dockerfile
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorSdk.ModifierTool", "src\RazorSdk.ModifierTool\RazorSdk.ModifierTool.csproj", "{3000070F-04C4-408A-A517-9AB218AF0DCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ronimizy.Razor.Sdk.ModifierTool", "src\ronimizy.Razor.Sdk.ModifierTool\ronimizy.Razor.Sdk.ModifierTool.csproj", "{3000070F-04C4-408A-A517-9AB218AF0DCF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{426128BA-5D18-4CB5-A570-581E1E34860F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ronimizy.Razor.Sdk.Sample", "sample\ronimizy.Razor.Sdk.Sample\ronimizy.Razor.Sdk.Sample.csproj", "{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ronimizy.Razor.Sdk", "src\ronimizy.Razor.Sdk\ronimizy.Razor.Sdk.csproj", "{D20F8369-2662-448E-B120-10DD8B60B73D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8F8B9B00-12D4-4F23-89B9-591F8F23A393}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-sdk-compiler.yaml = .github\workflows\build-sdk-compiler.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +35,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3000070F-04C4-408A-A517-9AB218AF0DCF} = {547A2231-520A-4176-9AAA-A216AFAB922D}
 		{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A} = {426128BA-5D18-4CB5-A570-581E1E34860F}
+		{D20F8369-2662-448E-B120-10DD8B60B73D} = {547A2231-520A-4176-9AAA-A216AFAB922D}
+		{8F8B9B00-12D4-4F23-89B9-591F8F23A393} = {6525DF8A-1516-4076-81DF-7CA08896C949}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3000070F-04C4-408A-A517-9AB218AF0DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -38,5 +47,9 @@ Global
 		{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7A84742-0ED5-4C8C-9E5B-90510C8D6A4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D20F8369-2662-448E-B120-10DD8B60B73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D20F8369-2662-448E-B120-10DD8B60B73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D20F8369-2662-448E-B120-10DD8B60B73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D20F8369-2662-448E-B120-10DD8B60B73D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

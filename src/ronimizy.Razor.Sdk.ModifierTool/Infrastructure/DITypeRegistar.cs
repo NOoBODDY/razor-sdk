@@ -2,7 +2,7 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 
-namespace RazorSdk.ModifierTool.Infrastructure;
+namespace ronimizy.Razor.Sdk.ModifierTool.Infrastructure;
 
 public class DiTypeRegistar : ITypeRegistrar
 {

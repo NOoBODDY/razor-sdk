@@ -1,0 +1,44 @@
+name: Build & Publish $${{ env.PACKAGE_PREFIX }}.Compiler
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'src/ronimizy.Razor.Sdk.ModifierTool/**'
+      - '.github/workflows/build-sdk-compiler.yaml'
+      - 'pack.sh'
+      - '*.props'
+  
+  workflow_dispatch:
+
+env:
+  PACKAGE_PREFIX: ronimizy.Razor.Sdk
+  PACKAGE_VERSION: 1.0.${{ github.run_number }}
+
+jobs:
+  build-and-publish:
+    name: Build & Publish
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Create ${{ env.PACKAGE_PREFIX }}.Compiler package
+        run: |
+          ./pack.sh ${{ env.PACKAGE_PREFIX }} ${{ env.PACKAGE_VERSION }}
+          
+          mkdir ./packages
+          cp ./razor/artifacts/packages/Release/Shipping/${{ env.PACKAGE_PREFIX }}.Compiler.${{ env.PACKAGE_VERSION }}.nupkg ./packages
+
+      - name: Publish ${{ env.PACKAGE_PREFIX }}.Compiler package
+        run: |
+          for file in ./packages/*.nupkg
+          do
+            dotnet nuget push "${file#/}" --source "nuget.org" --api-key ${{ secrets.NUGET_API_KEY }}
+          done

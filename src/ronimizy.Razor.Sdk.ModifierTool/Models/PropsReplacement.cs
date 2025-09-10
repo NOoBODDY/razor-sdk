@@ -1,4 +1,4 @@
-namespace RazorSdk.ModifierTool.Models;
+namespace ronimizy.Razor.Sdk.ModifierTool.Models;
 
 public class PropsReplacement
 {

@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
     </PropertyGroup>
-    
+
     <PropertyGroup>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>razor-sdk</ToolCommandName>

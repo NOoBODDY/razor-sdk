@@ -1,8 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Microsoft.Extensions.DependencyInjection;
-using RazorSdk.ModifierTool.Commands;
-using RazorSdk.ModifierTool.Infrastructure;
+using ronimizy.Razor.Sdk.ModifierTool.Commands;
+using ronimizy.Razor.Sdk.ModifierTool.Infrastructure;
 using Spectre.Console.Cli;
 
 var serviceCollection = new ServiceCollection();
@@ -16,5 +16,6 @@ app.Configure(config =>
         .WithDescription("Modifies the razor repository to be build as razor-sdk")
         .WithExample("modify", "./razor");
 });
+
 
 return await app.RunAsync(args);

@@ -1,16 +1,16 @@
 using System.ComponentModel;
-using System.Globalization;
 using System.Text;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
-using RazorSdk.ModifierTool.SyntaxRewriters;
+using ronimizy.Razor.Sdk.ModifierTool.Models;
+using ronimizy.Razor.Sdk.ModifierTool.SyntaxRewriters;
 using Spectre.Console.Cli;
 using Project = Microsoft.CodeAnalysis.Project;
 
-namespace RazorSdk.ModifierTool.Commands;
+namespace ronimizy.Razor.Sdk.ModifierTool.Commands;
 
 public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
 {
@@ -28,7 +28,15 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
     private const string RazorSolutionName = "Razor.sln";
     private const string RazorDotnetRootPath = ".dotnet";
 
+    private const string CodeAnalysisVersionProp = "RonimizyCodeAnalysisVerion";
+    private const string CodeAnalysisVersionPropRef = $"$({CodeAnalysisVersionProp})";
+
     private static readonly string[] ProjectToOpen = ["Microsoft.CodeAnalysis.Razor.Compiler"];
+
+    private static readonly string[] ExcludedFromOpenNamespaces =
+    [
+        "System.Diagnostics.CodeAnalysis",
+    ];
 
     private static readonly string[] ProjectPrefixes =
     [
@@ -36,7 +44,30 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
         "Microsoft.AspNetCore.Razor",
     ];
 
+    private static readonly PropsReplacement VersionsPropsReplacement = new("eng/Versions.props")
+    {
+        Properties = new()
+        {
+            [CodeAnalysisVersionProp] = "4.13.0",
+            ["MicrosoftCodeAnalysisCSharpPackageVersion"] = CodeAnalysisVersionPropRef,
+            ["MicrosoftCodeAnalysisCommonPackageVersion"] = CodeAnalysisVersionPropRef,
+        }
+    };
+
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+    {
+        try
+        {
+            return await ExecuteUnsafeAsync(settings);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    private async Task<int> ExecuteUnsafeAsync(Settings settings)
     {
         string razorDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), settings.RazorDirectoryPath);
         string dotnetRootPath = Path.Combine(razorDirectoryPath, RazorDotnetRootPath);
@@ -54,6 +85,8 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
         using var workspace = MSBuildWorkspace.Create();
 
         await workspace.OpenSolutionAsync(razorSolutionPath);
+
+        await ApplyPropsReplacement(workspace, VersionsPropsReplacement);
 
         foreach (string projectName in ProjectToOpen)
         {
@@ -100,7 +133,8 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
             SyntaxTree syntaxTree = (await document.GetSyntaxTreeAsync())!;
 
             SyntaxNode root = await syntaxTree.GetRootAsync();
-            root = new AccessModifierSyntaxRewriter().Visit(root);
+            SemanticModel semanticModel = (await document.GetSemanticModelAsync())!;
+            root = new AccessModifierSyntaxRewriter(ExcludedFromOpenNamespaces, semanticModel).Visit(root);
 
             Document newDocument = document.WithSyntaxRoot(root);
             string formattedCode = root.NormalizeWhitespace(eol: Environment.NewLine).ToFullString();
@@ -163,6 +197,14 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
 
         await AddProjectReferenceDllsAsync(workspace, projectRoot.AddItemGroup(), project, targetPrefix);
 
+        ProjectItemGroupElement packageReferenceGroup = projectRoot.AddItemGroup();
+
+        foreach (ProjectReference reference in project.ProjectReferences)
+        {
+            Project referencedProject = workspace.CurrentSolution.GetProject(reference.ProjectId)!;
+            await AddProjectReferencePackageReferences(workspace, packageReferenceGroup, referencedProject);
+        }
+
         projectRoot.Save();
     }
 
@@ -176,14 +218,43 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
         {
             Project referencedProject = workspace.CurrentSolution.GetProject(projectReference.ProjectId)!;
 
-            TryGetAssemblyNameWithChangedPrefix(referencedProject.AssemblyName, targetPrefix, out string assemblyName);
+            TryGetAssemblyNameWithChangedPrefix(
+                referencedProject.AssemblyName,
+                targetPrefix,
+                out string assemblyName);
 
-            ProjectItemElement item = itemGroup.AddItem("None", @$"$(OutputPath)\{assemblyName}.dll");
+            var itemName = $"A{assemblyName.Replace('.', '_')}Path";
+            itemGroup.AddItem(itemName, @$"$(OutputPath)**\{assemblyName}.dll");
+
+            ProjectItemElement item = itemGroup.AddItem("None", include: $"@({itemName})");
             item.AddMetadata("Pack", "true");
-            item.AddMetadata("PackagePath", @"lib\$(TargetFramework)");
+            item.AddMetadata("PackagePath", $@"lib\%(RecursiveDir){assemblyName}.dll");
             item.AddMetadata("Visible", "false");
 
             await AddProjectReferenceDllsAsync(workspace, itemGroup, referencedProject, targetPrefix);
+        }
+    }
+
+    private async Task AddProjectReferencePackageReferences(
+        Workspace workspace,
+        ProjectItemGroupElement itemGroup,
+        Project project)
+    {
+        var projectRoot = ProjectRootElement.Open(project.FilePath!)!;
+
+        var references = projectRoot.Items
+            .Where(item => item.ItemType == "PackageReference");
+
+        foreach (var reference in references)
+        {
+            ProjectItemElement currentReference = itemGroup.AddItem(reference.ItemType, reference.Include);
+            currentReference.CopyFrom(reference);
+        }
+
+        foreach (ProjectReference reference in project.ProjectReferences)
+        {
+            Project referencedProject = workspace.CurrentSolution.GetProject(reference.ProjectId)!;
+            await AddProjectReferencePackageReferences(workspace, itemGroup, referencedProject);
         }
     }
 
@@ -198,7 +269,7 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
             return false;
         }
 
-        string? matchingPrefix = ProjectPrefixes.FirstOrDefault(x => sourceAssemblyName.StartsWith(x));
+        string? matchingPrefix = ProjectPrefixes.FirstOrDefault(sourceAssemblyName.StartsWith);
 
         if (matchingPrefix is null)
         {
@@ -262,6 +333,22 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
             Project referencedProject = workspace.CurrentSolution.GetProject(projectReference.ProjectId)!;
             await AddNoWarnsAsync(workspace, referencedProject);
         }
+    }
+
+    private async Task ApplyPropsReplacement(Workspace workspace, PropsReplacement replacement)
+    {
+        string filePath = Path.Combine(
+            Path.GetDirectoryName(workspace.CurrentSolution.FilePath!)!,
+            replacement.FileName);
+
+        var root = ProjectRootElement.Open(filePath)!;
+
+        foreach (KeyValuePair<string, string> replacementProperty in replacement.Properties)
+        {
+            root.AddProperty(replacementProperty.Key, replacementProperty.Value);
+        }
+
+        root.Save();
     }
 
     private static bool IsGeneratorClass(ClassDeclarationSyntax node, SemanticModel semanticModel)

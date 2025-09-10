@@ -3,13 +3,25 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace RazorSdk.ModifierTool.SyntaxRewriters;
+namespace ronimizy.Razor.Sdk.ModifierTool.SyntaxRewriters;
 
 public class AccessModifierSyntaxRewriter : CSharpSyntaxRewriter
 {
+    private readonly IReadOnlyCollection<string> _excludedFromOpenNamespaces;
+    private readonly SemanticModel _semanticModel;
+
+    public AccessModifierSyntaxRewriter(
+        IReadOnlyCollection<string> excludedFromOpenNamespaces,
+        SemanticModel semanticModel)
+    {
+        _excludedFromOpenNamespaces = excludedFromOpenNamespaces;
+        _semanticModel = semanticModel;
+    }
+
     public override SyntaxNode? VisitClassDeclaration(ClassDeclarationSyntax node)
     {
-        if (TryOpenModifiers(node.Modifiers,
+        if (ShouldIgnore(node) is false && TryOpenModifiers(
+                node.Modifiers,
                 out SyntaxTokenList resultModifiers,
                 replaceProtected: true,
                 replaceEmpty: true))
@@ -22,7 +34,8 @@ public class AccessModifierSyntaxRewriter : CSharpSyntaxRewriter
 
     public override SyntaxNode? VisitStructDeclaration(StructDeclarationSyntax node)
     {
-        if (TryOpenModifiers(node.Modifiers,
+        if (ShouldIgnore(node) is false && TryOpenModifiers(
+                node.Modifiers,
                 out SyntaxTokenList resultModifiers,
                 replaceProtected: true,
                 replaceEmpty: true))
@@ -35,7 +48,8 @@ public class AccessModifierSyntaxRewriter : CSharpSyntaxRewriter
 
     public override SyntaxNode? VisitRecordDeclaration(RecordDeclarationSyntax node)
     {
-        if (TryOpenModifiers(node.Modifiers,
+        if (ShouldIgnore(node) is false && TryOpenModifiers(
+                node.Modifiers,
                 out SyntaxTokenList resultModifiers,
                 replaceProtected: true,
                 replaceEmpty: true))
@@ -48,7 +62,8 @@ public class AccessModifierSyntaxRewriter : CSharpSyntaxRewriter
 
     public override SyntaxNode? VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
     {
-        if (TryOpenModifiers(node.Modifiers,
+        if (ShouldIgnore(node) is false && TryOpenModifiers(
+                node.Modifiers,
                 out SyntaxTokenList resultModifiers,
                 replaceProtected: true,
                 replaceEmpty: true))
@@ -61,7 +76,8 @@ public class AccessModifierSyntaxRewriter : CSharpSyntaxRewriter
 
     public override SyntaxNode? VisitEnumDeclaration(EnumDeclarationSyntax node)
     {
-        if (TryOpenModifiers(node.Modifiers,
+        if (ShouldIgnore(node) is false && TryOpenModifiers(
+                node.Modifiers,
                 out SyntaxTokenList resultModifiers,
                 replaceProtected: true,
                 replaceEmpty: true))
@@ -113,6 +129,23 @@ public class AccessModifierSyntaxRewriter : CSharpSyntaxRewriter
         }
 
         return base.VisitMethodDeclaration(node);
+    }
+
+    private bool ShouldIgnore(SyntaxNode node)
+    {
+        try
+        {
+            ISymbol? symbol = _semanticModel.GetDeclaredSymbol(node);
+
+            if (symbol is not INamedTypeSymbol typeSymbol)
+                return false;
+
+            return _excludedFromOpenNamespaces.Contains(typeSymbol.ContainingNamespace.Name);
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     private static bool TryOpenModifiers(
