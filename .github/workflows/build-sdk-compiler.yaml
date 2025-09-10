@@ -1,4 +1,4 @@
-name: Build & Publish $${{ env.PACKAGE_PREFIX }}.Compiler
+name: Build & Publish Compiler package
 
 on:
   push:
