@@ -1,4 +1,4 @@
-name: Build & Publish Compiler package
+name: Build & Publish compiler package
 
 on:
   push:
@@ -23,20 +23,22 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 9.0.x
 
-      - name: Create ${{ env.PACKAGE_PREFIX }}.Compiler package
+      - name: Create compiler package
         run: |
           ./pack.sh ${{ env.PACKAGE_PREFIX }} ${{ env.PACKAGE_VERSION }}
           
           mkdir ./packages
           cp ./razor/artifacts/packages/Release/Shipping/${{ env.PACKAGE_PREFIX }}.Compiler.${{ env.PACKAGE_VERSION }}.nupkg ./packages
 
-      - name: Publish ${{ env.PACKAGE_PREFIX }}.Compiler package
+      - name: Publish compiler package
         run: |
           for file in ./packages/*.nupkg
           do
