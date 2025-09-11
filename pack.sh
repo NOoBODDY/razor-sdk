@@ -56,7 +56,7 @@ cd razor
 source ./activate.sh
 
 cd src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/
-dotnet pack /p:PackageVersion="$PACKAGE_VERSION"
+dotnet pack /p:PackageVersion="$PACKAGE_VERSION" /nowarn:IDE2000
 deactivate
 
 log "[pack] finished"
