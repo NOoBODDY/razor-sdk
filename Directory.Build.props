@@ -3,6 +3,6 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <NoWarn>$(NoWarn);RS0016;IDE0073</NoWarn>
+        <NoWarn>$(NoWarn);RS0016;IDE0073;IDE2000</NoWarn>
     </PropertyGroup>
 </Project>

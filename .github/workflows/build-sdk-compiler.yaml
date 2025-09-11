@@ -33,7 +33,7 @@ jobs:
 
       - name: Create compiler package
         run: |
-          ./pack.sh ${{ env.PACKAGE_PREFIX }} ${{ env.PACKAGE_VERSION }}
+          RAZOR_SDK_SKIP_CLEANUP=1 ./pack.sh ${{ env.PACKAGE_PREFIX }} ${{ env.PACKAGE_VERSION }}
           
           mkdir ./packages
           cp ./razor/artifacts/packages/Release/Shipping/${{ env.PACKAGE_PREFIX }}.Compiler.${{ env.PACKAGE_VERSION }}.nupkg ./packages

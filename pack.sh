@@ -56,7 +56,7 @@ cd razor
 source ./activate.sh
 
 cd src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/
-dotnet pack /p:PackageVersion="$PACKAGE_VERSION" -nowarn:IDE2000
+dotnet pack /p:PackageVersion="$PACKAGE_VERSION" -nowarn:IDE2000 || { log Failed to pack compiler; exit 1; }
 deactivate
 
 log "[pack] finished"
@@ -64,12 +64,13 @@ cd "$root"
 
 # reset submodule
 
-log "[reset] started"
-
-cd razor
-git reset --hard
-
-log "[reset] finished"
-cd "$root"
-
-
+if [[ -z "$RAZOR_SDK_SKIP_CLEANUP" ]]
+then
+  log "[reset] started"
+  
+  cd razor
+  git reset --hard
+  
+  log "[reset] finished"
+  cd "$root"
+fi
