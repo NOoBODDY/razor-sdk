@@ -54,6 +54,14 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
         }
     };
 
+    private static readonly PropsReplacement BuildPropsReplacement = new("Directory.Build.props")
+    {
+        Properties = new()
+        {
+            ["NoWarn"] = "$(NoWarn);IDE2000;",
+        },
+    };
+
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
     {
         try
@@ -87,6 +95,7 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
         await workspace.OpenSolutionAsync(razorSolutionPath);
 
         await ApplyPropsReplacement(workspace, VersionsPropsReplacement);
+        await ApplyPropsReplacement(workspace, BuildPropsReplacement);
 
         foreach (string projectName in ProjectToOpen)
         {
