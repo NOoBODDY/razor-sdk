@@ -6,7 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{6525DF
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
-		NuGet.config = NuGet.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{0575E7B4-BE96-41E6-A1EC-E6B6E95E7A02}"

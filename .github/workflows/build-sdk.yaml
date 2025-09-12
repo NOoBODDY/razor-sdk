@@ -28,8 +28,12 @@ jobs:
         run: |
           cd src/ronimizy.Razor.Sdk
           
-          dotnet build -c Release /p:PatchVersion=${{ github.run_number }} /p:GeneratePackageOnBuild=false
-          dotnet build -c Release /p:PatchVersion=${{ github.run_number }}
+          dotnet build -c Release /p:PatchVersion=${{ github.run_number }} /p:IsRazorSdkAnalyzerBuild=false /p:GeneratePackageOnBuild=false
+          dotnet build -c Release /p:PatchVersion=${{ github.run_number }} /p:IsRazorSdkAnalyzerBuild=false
+          
+          
+          dotnet build -c Release /p:PatchVersion=${{ github.run_number }} /p:IsRazorSdkAnalyzerBuild=true /p:GeneratePackageOnBuild=false
+          dotnet build -c Release /p:PatchVersion=${{ github.run_number }} /p:IsRazorSdkAnalyzerBuild=true
 
       - name: Publish SDK package
         run: |

@@ -1,19 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework></TargetFramework>
-        <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     </PropertyGroup>
 
     <PropertyGroup>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">
+        <PackageId>ronimizy.Razor.Sdk.Analyzers</PackageId>
+        <Title>ronimizy.Razor.Sdk.Analyzers</Title>
         <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
 
-    <PropertyGroup>
+    <PropertyGroup Condition="'$(IsRazorSdkAnalyzerBuild)' != 'true'">
         <PackageId>ronimizy.Razor.Sdk</PackageId>
         <Title>ronimizy.Razor.Sdk</Title>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <Authors>ronimizy</Authors>
         <Description>SDK for creating custom Razor compilers</Description>
         <PackageProjectUrl>https://github.com/ronimizy/razor-sdk</PackageProjectUrl>
@@ -29,20 +36,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ronimizy.Razor.Sdk.Compiler" PrivateAssets="all" GeneratePathPropery="true"/>
+        <PackageReference Include="ronimizy.Razor.Sdk.Compiler" GeneratePathProperty="true">
+            <PrivateAssets Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">all</PrivateAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="PolySharp" PrivateAssets="all"/>
     </ItemGroup>
 
-    <ItemGroup Label="Pack SDK assembly">
-        <None Include="$(OutputPath)netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+    <ItemGroup Label="Pack SDK assembly" Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">
+        <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+        <None Include="$(Pkgronimizy_Razor_Sdk_Compiler)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
     </ItemGroup>
-    
-    <ItemGroup Label="Pack MSBuild items">
-        <None Include="BuildTransitive\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="buildTransitive"/>
-        <None Include="BuildTransitive\ronimizy.Razor.Sdk.targets" Pack="true" PackagePath="buildTransitive"/>
+
+    <ItemGroup Label="Pack SDK assembly" Condition="'$(IsRazorSdkAnalyzerBuild)' != 'true'">
+        <None Include="$(Pkgronimizy_Razor_Sdk_Compiler)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="false"/>
+    </ItemGroup>
+
+    <ItemGroup Label="Pack MSBuild items" Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">
+        <None Include="BuildTransitive\ronimizy.Razor.Sdk.Analyzers.props" Pack="true" PackagePath="buildTransitive"/>
+        <None Include="BuildTransitive\ronimizy.Razor.Sdk.Analyzers.targets" Pack="true" PackagePath="buildTransitive"/>
     </ItemGroup>
 
 </Project>
