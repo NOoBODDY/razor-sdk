@@ -37,8 +37,9 @@
     </ItemGroup>
 
     <ItemGroup Label="Pack MSBuild items">
-        <None Include="ronimizy.Razor.Sdk.props" Pack="true" PackagePath="build"/>
-        <None Include="ronimizy.Razor.Sdk.targets" Pack="true" PackagePath="build"/>
+        <None Update="buildTransitive\ronimizy.Razor.Sdk.targets" Pack="true" PackagePath="buildTransitive"/>
+        <None Update="buildTransitive\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="buildTransitive"/>
+        <None Update="build\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="build"/>
     </ItemGroup>
 
 </Project>
