@@ -8,8 +8,8 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.13.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.13.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
-    <PackageVersion Include="ronimizy.Razor.Sdk.Compiler" Version="1.0.9-alpha" />
+    <PackageVersion Include="ronimizy.Razor.Sdk.Compiler" Version="1.0.12-alpha" />
     <PackageVersion Include="Spectre.Console.Cli" Version="0.50.0" />
-    <PackageVersion Include="PolySharp" Version="1.15.0"/>
+    <PackageVersion Include="PolySharp" Version="1.15.0" />
   </ItemGroup>
 </Project>

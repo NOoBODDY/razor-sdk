@@ -12,6 +12,7 @@
     <PropertyGroup Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">
         <PackageId>ronimizy.Razor.Sdk.Analyzers</PackageId>
         <Title>ronimizy.Razor.Sdk.Analyzers</Title>
+
         <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
 
@@ -48,10 +49,6 @@
     <ItemGroup Label="Pack SDK assembly" Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">
         <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
         <None Include="$(Pkgronimizy_Razor_Sdk_Compiler)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
-    </ItemGroup>
-
-    <ItemGroup Label="Pack SDK assembly" Condition="'$(IsRazorSdkAnalyzerBuild)' != 'true'">
-        <None Include="$(Pkgronimizy_Razor_Sdk_Compiler)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="false"/>
     </ItemGroup>
 
     <ItemGroup Label="Pack MSBuild items" Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">

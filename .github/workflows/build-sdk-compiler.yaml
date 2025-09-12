@@ -15,6 +15,7 @@ on:
 env:
   PACKAGE_PREFIX: ronimizy.Razor.Sdk
   PACKAGE_VERSION: 1.0.${{ github.run_number }}-alpha
+  PACKAGE_DIR: ./razor/artifacts/packages/Release/Shipping
 
 jobs:
   build-and-publish:
@@ -36,7 +37,13 @@ jobs:
           RAZOR_SDK_SKIP_CLEANUP=1 ./pack.sh ${{ env.PACKAGE_PREFIX }} ${{ env.PACKAGE_VERSION }}
           
           mkdir ./packages
-          cp ./razor/artifacts/packages/Release/Shipping/${{ env.PACKAGE_PREFIX }}.Compiler.${{ env.PACKAGE_VERSION }}.nupkg ./packages
+          cp ${{ env.PACKAGE_DIR }}/${{ env.PACKAGE_PREFIX }}.Compiler.${{ env.PACKAGE_VERSION }}.nupkg ./packages
+          
+          echo Packages content
+          find ${{ env.PACKAGE_DIR }}
+          
+          echo Bin content
+          find ./razor/artifacts/bin/Microsoft.CodeAnalysis.Razor.Compiler/Release | grep '.*\.dll'
 
       - name: Publish compiler package
         run: |
