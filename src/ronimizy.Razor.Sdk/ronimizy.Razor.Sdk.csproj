@@ -1,9 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>ronimizy.Razor.Sdk</PackageId>
+        <Title>ronimizy.Razor.Sdk</Title>
+        <Authors>ronimizy</Authors>
+        <Description>SDK for creating custom Razor compilers</Description>
+        <PackageProjectUrl>https://github.com/ronimizy/razor-sdk</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/ronimizy-razor-sdk</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Version>1.0.$(PatchVersion)-alpha</Version>
+        <PackageReleaseNotes>
+            Implemented RazorSourceGeneratorBase and MSBuild items
+        </PackageReleaseNotes>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ronimizy.Razor.Sdk.Compiler" PrivateAssets="all" GeneratePathPropery="true"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="PolySharp" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup Label="Pack MSBuild items">
+        <None Include="ronimizy.Razor.Sdk.props" Pack="true" PackagePath="build\"/>
+        <None Include="ronimizy.Razor.Sdk.targets" Pack="true" PackagePath="build\"/>
+    </ItemGroup>
 
 </Project>

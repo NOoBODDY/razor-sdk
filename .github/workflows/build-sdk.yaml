@@ -1,0 +1,39 @@
+name: Build & Publish SDK package
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'src/ronimizy.Razor.Sdk/**'
+      - '.github/workflows/build-sdk.yaml'
+      - '*.props'
+  
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    name: Build & Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Generate SDK package
+        run: |
+          cd src/ronimizy.Razor.Sdk
+          
+          dotnet build -c Release /p:PatchVersion=${{ github.run_number }} /p:GeneratePackageOnBuild=false
+          dotnet build -c Release /p:PatchVersion=${{ github.run_number }}
+
+      - name: Publish SDK package
+        run: |
+          for file in src/ronimizy.Razor.Sdk/bin/Release/*.nupkg
+          do
+            dotnet nuget push "${file#/}" --source "nuget.org" --api-key ${{ secrets.NUGET_API_KEY }} 
+          done

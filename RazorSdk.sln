@@ -25,6 +25,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8F8B9B00-12D4-4F23-89B9-591F8F23A393}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-sdk-compiler.yaml = .github\workflows\build-sdk-compiler.yaml
+		.github\workflows\build-sdk.yaml = .github\workflows\build-sdk.yaml
 	EndProjectSection
 EndProject
 Global

@@ -1,8 +1,13 @@
 <Project>
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
+        <LangVersion>13</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <NoWarn>$(NoWarn);RS0016;IDE0073;IDE2000</NoWarn>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <PatchVersion>0</PatchVersion>
     </PropertyGroup>
 </Project>

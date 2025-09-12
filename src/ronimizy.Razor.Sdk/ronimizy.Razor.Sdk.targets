@@ -1,0 +1,10 @@
+<Project>
+
+    <Target Name="RazorSdkBeforeCompile" BeforeTargets="BeforeCompile">
+        <Warning Condition="'$(UsingMicrosoftNETSdkRazor)' == 'true'"
+                 Code="RSDK0001"
+                 Text="You should not use RazorSdk custom compilers in ASP.NET projects.
+                 Both ASP.NET compilers and custom compilers will process same Razor files, producing conflicting generated sources."/>
+    </Target>
+
+</Project>
