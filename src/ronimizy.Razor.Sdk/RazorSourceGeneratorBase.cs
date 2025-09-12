@@ -32,8 +32,6 @@ public abstract class RazorSourceGeneratorBase : IIncrementalGenerator
                 fileSystem.Add(projectItem);
                 ConfigureFileSystem(fileSystem);
 
-                Diagnostic a;
-
                 foreach (var import in imports)
                 {
                     fileSystem.Add(import);
