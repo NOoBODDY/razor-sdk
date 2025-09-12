@@ -48,7 +48,11 @@ jobs:
           
           echo Msbuild content
           dotnet msbuild ./razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/Microsoft.CodeAnalysis.RazorCompiler.csproj /filelogger /fileLoggerParameters:Verbosity=diag
-          cat msbuilg.log
+          
+          echo # MSBuild content >> $GITHUB_STEP_SUMMARY
+          echo ``` >> $GITHUB_STEP_SUMMARY
+          cat msbuilg.log >> $GITHUB_STEP_SUMMARY
+          echo ``` >> $GITHUB_STEP_SUMMARY
 
       - name: Publish compiler package
         run: |
