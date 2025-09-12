@@ -46,12 +46,9 @@ jobs:
           echo Bin content
           find ./razor/artifacts/bin/Microsoft.CodeAnalysis.Razor.Compiler/Release | grep '.*\.dll'
           
-          echo Msbuild content
-          dotnet msbuild ./razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/Microsoft.CodeAnalysis.Razor.Compiler.csproj /filelogger /fileLoggerParameters:Verbosity=diag
-          
           echo # MSBuild content >> $GITHUB_STEP_SUMMARY
           echo ``` >> $GITHUB_STEP_SUMMARY
-          cat msbuilg.log >> $GITHUB_STEP_SUMMARY
+          cat ./razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/msbuilg.log >> $GITHUB_STEP_SUMMARY
           echo ``` >> $GITHUB_STEP_SUMMARY
 
       - name: Publish compiler package
