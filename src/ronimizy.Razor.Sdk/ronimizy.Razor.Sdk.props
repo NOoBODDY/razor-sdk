@@ -1,13 +1,13 @@
 <Project>
 
-    <ItemGroup Label="Expose MSBuild properties to analyzer">
+    <ItemGroup Label="Expose MSBuild properties to analyzer" Condition="!$(IsRazorSdkComponent)">
         <AvailableItemName Include="RazorSdkSources"/>
         <AvailableItemName Include="RazorSdkDllFiles"/>
         <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="HintNamespace"/>
         <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="FilePrefix"/>
     </ItemGroup>
 
-    <ItemGroup Label="Setup .razor files">
+    <ItemGroup Label="Setup .razor files" Condition="!$(IsRazorSdkComponent)">
 
         <RazorSdkSources Include="**/*.razor" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 
@@ -20,12 +20,7 @@
 
     </ItemGroup>
 
-    <ItemGroup Label="Pack RazorSdk packages" Condition="!$(IsRazorSdkExtension)">
-        <PackageReference Update="ronimizy.Razor.Sdk" GeneratePathProperty="true" PrivateAssets="all"/>
-        <None Include="$(Pkgronimizy_Razor_Sdk)\analyzers\dotnet\cs" Pack="true" PackagePath="analyzers/dotnet/cs"/>
-    </ItemGroup>
-
-    <ItemGroup Label="Reference RazorSdk asseblies" Condition="$(IsRazorSdkExtension)">
+    <ItemGroup Label="Reference RazorSdk asseblies" Condition="$(IsRazorSdkComponent)">
 
         <RazorSdkDllFiles Include="$(Pkgronimizy_Razor_Sdk)\analyzers\dotnet\cs\*.dll"/>
 
