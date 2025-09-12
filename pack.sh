@@ -56,7 +56,7 @@ cd razor
 source ./activate.sh
 
 cd src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/
-dotnet pack /p:PackageVersion="$PACKAGE_VERSION" || { log Failed to pack compiler; exit 1; }
+dotnet pack /p:PackageVersion="$PACKAGE_VERSION" -v:d || { log Failed to pack compiler; exit 1; }
 deactivate
 
 log "[pack] finished"

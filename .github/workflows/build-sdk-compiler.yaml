@@ -45,6 +45,10 @@ jobs:
           
           echo Bin content
           find ./razor/artifacts/bin/Microsoft.CodeAnalysis.Razor.Compiler/Release | grep '.*\.dll'
+          
+          echo Msbuild content
+          dotnet msbuild ./razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/Microsoft.CodeAnalysis.RazorCompiler.csproj /filelogger /fileLoggerParameters:Verbosity=diag
+          cat msbuilg.log
 
       - name: Publish compiler package
         run: |
