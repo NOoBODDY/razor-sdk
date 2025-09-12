@@ -37,10 +37,11 @@ jobs:
           RAZOR_SDK_SKIP_CLEANUP=1 ./pack.sh ${{ env.PACKAGE_PREFIX }} ${{ env.PACKAGE_VERSION }}
           
           mkdir ./packages
-          cp ${{ env.PACKAGE_DIR }}/${{ env.PACKAGE_PREFIX }}.Compiler.${{ env.PACKAGE_VERSION }}.nupkg ./packages
+          compiler_package=${{ env.PACKAGE_DIR }}/${{ env.PACKAGE_PREFIX }}.Compiler.${{ env.PACKAGE_VERSION }}.nupkg
+          cp "$compiler_package" ./packages
           
           echo Packages content
-          find ${{ env.PACKAGE_DIR }}
+          unzip -v "$compiler_package"
           
           echo Bin content
           find ./razor/artifacts/bin/Microsoft.CodeAnalysis.Razor.Compiler/Release | grep '.*\.dll'
