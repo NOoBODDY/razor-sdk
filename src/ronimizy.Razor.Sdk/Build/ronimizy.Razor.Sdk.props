@@ -1,6 +1,6 @@
 <Project>
 
-    <ItemGroup Label="Reference RazorSdk asseblies" Condition="$(IsRazorSdkComponent)">
+    <ItemGroup Label="Reference RazorSdk asseblies" Condition="'$(IsRazorSdkComponent)' == 'true'">
 
         <PackageReference Update="ronimizy.Razor.Sdk" GeneratePathProperty="true"/>
         <RazorSdkDllFiles Include="$(Pkgronimizy_Razor_Sdk)\analyzers\dotnet\cs\*.dll"/>
