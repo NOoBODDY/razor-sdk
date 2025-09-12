@@ -48,7 +48,7 @@ jobs:
           
           echo # MSBuild content >> $GITHUB_STEP_SUMMARY
           echo ``` >> $GITHUB_STEP_SUMMARY
-          cat ./razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/msbuilg.log >> $GITHUB_STEP_SUMMARY
+          cat ./razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/msbuild.log >> $GITHUB_STEP_SUMMARY
           echo ``` >> $GITHUB_STEP_SUMMARY
 
       - name: Publish compiler package
