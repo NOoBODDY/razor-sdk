@@ -36,10 +36,14 @@
         <PackageReference Include="PolySharp" PrivateAssets="all"/>
     </ItemGroup>
 
+    <ItemGroup Label="Pack SDK assembly">
+        <None Include="$(OutputPath)netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+    </ItemGroup>
+    
     <ItemGroup Label="Pack MSBuild items">
-        <None Update="buildTransitive\ronimizy.Razor.Sdk.targets" Pack="true" PackagePath="buildTransitive"/>
-        <None Update="buildTransitive\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="buildTransitive"/>
-        <None Update="build\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="build"/>
+        <None Include="Build\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="build"/>
+        <None Include="BuildTransitive\ronimizy.Razor.Sdk.targets" Pack="true" PackagePath="buildTransitive"/>
+        <None Include="BuildTransitive\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="buildTransitive"/>
     </ItemGroup>
 
 </Project>
