@@ -42,8 +42,9 @@
     
     <ItemGroup Label="Pack MSBuild items">
         <None Include="Build\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="build"/>
-        <None Include="BuildTransitive\ronimizy.Razor.Sdk.targets" Pack="true" PackagePath="buildTransitive"/>
+        <None Include="Build\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="build\netstandard2.0"/>
         <None Include="BuildTransitive\ronimizy.Razor.Sdk.props" Pack="true" PackagePath="buildTransitive"/>
+        <None Include="BuildTransitive\ronimizy.Razor.Sdk.targets" Pack="true" PackagePath="buildTransitive"/>
     </ItemGroup>
 
 </Project>
