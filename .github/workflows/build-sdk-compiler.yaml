@@ -45,11 +45,13 @@ jobs:
           
           echo Bin content
           find ./razor/artifacts/bin/Microsoft.CodeAnalysis.Razor.Compiler/Release | grep '.*\.dll'
-          
-          echo # MSBuild content >> $GITHUB_STEP_SUMMARY
-          echo ``` >> $GITHUB_STEP_SUMMARY
-          cat ./razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/msbuild.log >> $GITHUB_STEP_SUMMARY
-          echo ``` >> $GITHUB_STEP_SUMMARY
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: MSBuild log
+          path: |
+            razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/msbuild.log
 
       - name: Publish compiler package
         run: |
