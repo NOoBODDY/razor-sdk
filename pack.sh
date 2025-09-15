@@ -57,10 +57,10 @@ source ./activate.sh
 
 cd src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/
 
-dotnet build /p:PackageVersion="$PACKAGE_VERSION" /filelogger /fileLoggerParameters:Verbosity=diag || { log Failed to build compiler; exit 1; }
+dotnet build -c Release /p:PackageVersion="$PACKAGE_VERSION" /filelogger /fileLoggerParameters:Verbosity=diag || { log Failed to build compiler; exit 1; }
 mv msbuild.log build-msbuild.log
 
-dotnet pack --no-build /p:PackageVersion="$PACKAGE_VERSION" /filelogger /fileLoggerParameters:Verbosity=diag || { log Failed to pack compiler; exit 1; }
+dotnet pack -c Release --no-build /p:PackageVersion="$PACKAGE_VERSION" /filelogger /fileLoggerParameters:Verbosity=diag || { log Failed to pack compiler; exit 1; }
 mv msbuild.log pack-msbuild.log
 
 deactivate
