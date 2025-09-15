@@ -27,12 +27,8 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 9.0.x
-
       - name: Create compiler package
+        continue-on-error: true
         run: |
           RAZOR_SDK_SKIP_CLEANUP=1 ./pack.sh ${{ env.PACKAGE_PREFIX }} ${{ env.PACKAGE_VERSION }}
           
@@ -46,7 +42,7 @@ jobs:
           echo Bin content
           find ./razor/artifacts/bin/Microsoft.CodeAnalysis.Razor.Compiler/Release | grep '.*\.dll'
 
-      - name: Archive production artifacts
+      - name: Put logs into artifacts
         uses: actions/upload-artifact@v4
         with:
           name: MSBuild log
@@ -54,8 +50,26 @@ jobs:
             razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/build-msbuild.log
             razor/src/Compiler/Microsoft.CodeAnalysis.Razor.Compiler/src/pack-msbuild.log
 
+      - name: Put razor folder in artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Razor folder
+          path: |
+            razor/**
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 9.0.x
+
       - name: Publish compiler package
         run: |
+          if [[ ! -d ./packages ]]
+          then
+            echo No packages folder found
+            exit 1
+          fi
+          
           for file in ./packages/*.nupkg
           do
             dotnet nuget push "${file#/}" --source "nuget.org" --api-key ${{ secrets.NUGET_API_KEY }}
