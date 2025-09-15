@@ -58,7 +58,7 @@ public class ModifyCommand : AsyncCommand<ModifyCommand.Settings>
     {
         Properties = new()
         {
-            ["NoWarn"] = "$(NoWarn);IDE2000;",
+            ["NoWarn"] = "$(NoWarn);IDE2000;RS0041;",
             ["Deterministic"] = "true",
         },
     };
