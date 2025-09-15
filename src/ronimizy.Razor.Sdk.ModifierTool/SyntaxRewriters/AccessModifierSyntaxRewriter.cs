@@ -87,6 +87,17 @@ public class AccessModifierSyntaxRewriter : CSharpSyntaxRewriter
 
         return base.VisitEnumDeclaration(node);
     }
+    
+    
+    public override SyntaxNode? VisitDelegateDeclaration(DelegateDeclarationSyntax node)
+    {
+        if (ShouldIgnore(node) is false && TryOpenModifiers(node.Modifiers, out SyntaxTokenList resultModifiers))
+        {
+            node = node.WithModifiers(resultModifiers);
+        }
+
+        return base.VisitDelegateDeclaration(node);
+    }
 
     public override SyntaxNode? VisitFieldDeclaration(FieldDeclarationSyntax node)
     {
