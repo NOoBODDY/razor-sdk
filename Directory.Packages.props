@@ -11,5 +11,6 @@
     <PackageVersion Include="ronimizy.Razor.Sdk.Compiler" Version="1.0.28-alpha" />
     <PackageVersion Include="Spectre.Console.Cli" Version="0.50.0" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />
+    <PackageVersion Include="Microsoft.Extensions.ObjectPool" Version="9.0.4" />
   </ItemGroup>
 </Project>
