@@ -57,11 +57,11 @@ public abstract class RazorSourceGeneratorBase : IIncrementalGenerator
                 // DocumentClassifierPhase
                 builder.Features.Add(CreateClassifierPass(projectItem));
 
-                FunctionsDirective.Register(builder);
                 ImplementsDirective.Register(builder);
                 InheritsDirective.Register(builder);
                 NamespaceDirective.Register(builder);
                 AttributeDirective.Register(builder);
+                FunctionsDirective.Register(builder);
                 ComponentCodeDirective.Register(builder);
                 ComponentInjectDirective.Register(builder);
 

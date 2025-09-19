@@ -1,12 +1,5 @@
 <Project>
 
-    <ItemGroup Label="Expose MSBuild properties to analyzer" Condition="'$(IsRazorSdkComponent)' != 'true'">
-        <AvailableItemName Include="RazorSdkSources"/>
-        <AvailableItemName Include="RazorSdkDllFiles"/>
-        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="HintNamespace"/>
-        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="FilePrefix"/>
-    </ItemGroup>
-
     <ItemGroup Label="Setup .razor files" Condition="'$(IsRazorSdkComponent)' != 'true'">
 
         <RazorSdkSources Include="**/*.razor" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
@@ -18,6 +11,11 @@
                 Update="@(RazorSdkSources)"
                 HintNamespace="$([MSBuild]::ValueOrDefault('$(RootNamespace).%(RelativeDir)', '').Replace('\', '.').Replace('/', '.').Trim('.'))"/>
 
+    </ItemGroup>
+
+    <ItemGroup Label="Expose MSBuild properties to analyzer" Condition="'$(IsRazorSdkComponent)' != 'true'">
+        <AvailableItemName Include="RazorSdkSources"/>
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="HintNamespace"/>
     </ItemGroup>
 
 </Project>

@@ -40,6 +40,9 @@
         <PackageReference Include="ronimizy.Razor.Sdk.Compiler" GeneratePathProperty="true">
             <PrivateAssets Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.ObjectPool" GeneratePathProperty="true">
+            <PrivateAssets Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">all</PrivateAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
@@ -49,6 +52,7 @@
     <ItemGroup Label="Pack SDK assembly" Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">
         <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
         <None Include="$(Pkgronimizy_Razor_Sdk_Compiler)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+        <None Include="$(PkgMicrosoft_Extensions_ObjectPool)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
     </ItemGroup>
 
     <ItemGroup Label="Pack MSBuild items" Condition="'$(IsRazorSdkAnalyzerBuild)' == 'true'">
