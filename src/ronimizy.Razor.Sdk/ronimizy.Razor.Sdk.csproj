@@ -30,7 +30,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>1.0.$(PatchVersion)-alpha</Version>
+        <Version>1.0.$(PatchVersion)</Version>
         <PackageReleaseNotes>
             Implemented RazorSourceGeneratorBase and MSBuild items
         </PackageReleaseNotes>
