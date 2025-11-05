@@ -18,7 +18,9 @@ public class RazorSdkProjectItem
 
         Value = new SourceGeneratorProjectItem(
             basePath: "/",
-            filePath: additionalText.Path,
+            filePath: '/' + additionalText.Path
+                .Replace(Path.DirectorySeparatorChar, '/')
+                .Replace("//", "/"),
             relativePhysicalPath: additionalText.Path,
             fileKind: FileKinds.GetFileKindFromPath(additionalText.Path),
             additionalText: additionalText,
